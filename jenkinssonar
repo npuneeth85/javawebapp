@@ -1,0 +1,44 @@
+pipeline{
+    agent {
+	label 'maven'
+	}
+    environment {
+        PATH = "$PATH:/usr/share/apache-maven/bin"
+    }
+    stages{
+       stage('GetCode'){
+            steps{
+                git branch: 'main', credentialsId: 'slave-password', url: 'https://github.com/npuneeth85/javawebapp.git'
+            }
+         }        
+       stage('Build'){
+            steps{
+                sh 'mvn clean package'
+            }
+         }
+        stage('SonarQube analysis') {
+        steps{
+        withSonarQubeEnv('sql1') { 
+        sh "mvn sonar:sonar"
+    }
+        }
+        }
+		stage('Upload to Nexus'){
+            steps{
+            nexusArtifactUploader artifacts: [
+			[artifactId: 'SimpleWebApplication',
+			classifier: '', file: 'target/SimpleWebApplication.war', 
+			type: 'war']], 
+			credentialsId: 'nexuslogin', 
+			groupId: 'com.maven.bt', 
+			nexusUrl: '54.200.114.150:8081', 
+			nexusVersion: 'nexus3', 
+			protocol: 'http', 
+			repository: 'puneeth', 
+			version: '9.1.14'
+            }
+         }
+		
+       
+    }
+}
