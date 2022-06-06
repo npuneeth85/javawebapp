@@ -8,7 +8,7 @@ pipeline{
     stages{
        stage('GetCode'){
             steps{
-                git branch: 'main', credentialsId: 'slave-password', url: 'https://github.com/npuneeth85/javawebapp.git'
+                git branch: 'main', credentialsId: 'git1', url: 'https://github.com/npuneeth85/javawebapp.git'
             }
          }        
        stage('Build'){
@@ -18,7 +18,7 @@ pipeline{
          }
         stage('SonarQube analysis') {
         steps{
-        withSonarQubeEnv('sql1') { 
+        withSonarQubeEnv('qube') { 
         sh "mvn sonar:sonar"
     }
         }
