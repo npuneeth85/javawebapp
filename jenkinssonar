@@ -25,17 +25,18 @@ pipeline{
         }
 		stage('Upload to Nexus'){
             steps{
-            nexusArtifactUploader artifacts: [
-			[artifactId: 'SimpleWebApplication', 
-                        classifier: '', file: 'target/SimpleWebApplication.war', 
-                        type: 'war']], 
-                        credentialsId: 'nexus1', 
-                        groupId: 'com.maven.bt',
-                        nexusUrl: '54.186.42.143:8081', 
-                        nexusVersion: 'nexus3',
-                        protocol: 'http', 
-                        repository: 'puneeth1',
-                        version: '9.1.14'
+           nexusArtifactUploader artifacts: [
+		   [artifactId: 'SimpleWebApplication', 
+		   classifier: '', 
+		   file: 'target/SimpleWebApplication.war', 
+		   type: 'war']], 
+		   credentialsId: 'nexus1', 
+		   groupId: 'com.maven.bt', 
+		   nexusUrl: '54.186.42.143:8081', 
+		   nexusVersion: 'nexus3', 
+		   protocol: 'http', 
+		   repository: 'puneeth1', 
+		   version: '9.1.14'
             }
          }
 		
